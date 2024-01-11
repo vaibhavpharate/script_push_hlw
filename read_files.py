@@ -153,8 +153,9 @@ def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,
             except Exception as e:
                 print(e)
     exim_file_timestamp = exim_file+usd_timestamp.strftime(format='%Y%m%dT%H%M%SZ')
+    # date_folder = None
     print(minuts)
-    if int(minuts)<=30 and int(minuts) >=15:
+    if int(minuts)<=30 and int(minuts) >=4:
         add_time = 15
         file_1 = exim_file_timestamp + '_015.nc'
         file_path_1 = f"{destination_path}/EXIM/{latest_date}/{file_1}"
