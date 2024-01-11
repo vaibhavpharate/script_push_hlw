@@ -1,5 +1,5 @@
 from database_funcs import get_connection
-from configs.database_config import data_configs_local
+from configs.database_config import data_configs_local, data_configs_map
 from transfer_files import *
 from read_files import *
 
@@ -43,6 +43,11 @@ tracker_df = get_transferred_logs(db_connection=db_connection)
 
 
 
+db_conn_map = get_connection(host=data_configs_map['host'],
+                               passord=data_configs_map['password'],
+                               user=data_configs_map['user'],
+                               database=data_configs_map['database'],
+                               port=data_configs_map['port'])
 
 for index, row in tracker_df.iterrows():
     data_to_database(timestamp=row['timestamp'],
@@ -50,4 +55,5 @@ for index, row in tracker_df.iterrows():
                  db_connection=db_connection,
                  variable_atts=variable_atts,
                  ssh_client=ssh_client,
-                 latest_date=latest_date)
+                 latest_date=latest_date,
+                 data_map_config = db_conn_map)

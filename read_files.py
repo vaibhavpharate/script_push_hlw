@@ -45,7 +45,7 @@ def get_us_timestamp(tim_stmp):
     return us_time
 
 
-def date_from_exim(add_time,exim_file_path,variable_atts,db_connection,timestamp):
+def date_from_exim(add_time,exim_file_path,variable_atts,db_connection,timestamp,data_map_config):
     org_timestamp = datetime.strptime(timestamp,'%Y-%m-%d %H:%M:%S')
     tmstp_str = org_timestamp + timedelta(minutes=add_time)
     tmstp_str = tmstp_str.strftime(format='%Y-%m-%d %H:%M:%S')
@@ -69,7 +69,7 @@ def date_from_exim(add_time,exim_file_path,variable_atts,db_connection,timestamp
         df['lat'] = np.array(data.variables['lat'][:]).flatten()
         df['lon'] = np.array(data.variables['lon'][:]).flatten()
         df['timestamp'] = tmstp_str
-        ci_ct_map = get_ci_ct_map(db_connection=db_connection)
+        ci_ct_map = get_ci_ct_map(db_connection=data_map_config)
             
         for i in variable_atts['CT']:
             df[i] = np.array(data.variables[i][:]).flatten()
@@ -86,7 +86,7 @@ def date_from_exim(add_time,exim_file_path,variable_atts,db_connection,timestamp
         print(df)
 
 
-def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,latest_date):
+def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,latest_date,data_map_config):
     exim_file = 'S_NWC_EXIM-CT_MSG2_IODC-VISIR_'
     file_timestmap = timestamp
     usd_timestamp = timestamp - timedelta(hours=5,minutes=60)
@@ -131,7 +131,7 @@ def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,
             df['lat'] = np.array(data.variables['lat'][:]).flatten()
             df['lon'] = np.array(data.variables['lon'][:]).flatten()
             df['timestamp'] = tmstp_str
-            ci_ct_map = get_ci_ct_map(db_connection=db_connection)
+            ci_ct_map = get_ci_ct_map(db_connection=data_map_config)
             
             for i in variable_atts['CT']:
                 df[i] = np.array(data.variables[i][:]).flatten()
@@ -165,7 +165,8 @@ def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,
                        exim_file_path=file_path_1,
                        variable_atts=variable_atts,
                        db_connection=db_connection,
-                       timestamp=tmstp_str)
+                       timestamp=tmstp_str,
+                       data_map_config=data_map_config)
     if int(minuts) > 30 and int(minuts)<45:
         
         file_11 = exim_file_timestamp + '_015.nc'
@@ -176,7 +177,8 @@ def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,
                        exim_file_path=file_path_11,
                        variable_atts=variable_atts,
                        db_connection=db_connection,
-                       timestamp=tmstp_str)
+                       timestamp=tmstp_str,
+                       data_map_config=data_map_config)
         file_2 = exim_file_timestamp + '_030.nc'
         transfer_exim_files(ssh_client=ssh_client,exim_file_name=file_2,latest_date=latest_date)
         add_time = 30
@@ -185,6 +187,7 @@ def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,
                        exim_file_path=file_path_2,
                        variable_atts=variable_atts,
                        db_connection=db_connection,
-                       timestamp=tmstp_str)
+                       timestamp=tmstp_str,
+                       data_map_config=data_map_config)
         
     
