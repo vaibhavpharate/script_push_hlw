@@ -94,7 +94,9 @@ def data_to_database(timestamp,file_path,db_connection,variable_atts,ssh_client,
     tmstp_str = str(timestamp) ## This is in IST
     previous_24 = file_timestmap - timedelta(hours=24)
     previous_24 = previous_24.strftime(format='%Y-%m-%d %H:%M:%S')
-    minuts = (datetime.now() - file_timestmap)
+    some_new = datetime.now() + timedelta(hours=5,minutes=30) 
+    minuts = (some_new - file_timestmap)
+    #minuts = (datetime.now() - file_timestmap)
     minuts = minuts.seconds /60
     # print(f"THIS IS A TIMEDELTA {minuts.seconds/60}")
     ct_data={1: 'Cloud-free_land',

@@ -1,10 +1,10 @@
 
 data_configs_local = {
-    'host':'localhost',
+    'host':'hlwaredb.cc2d2xky8wfs.us-east-1.rds.amazonaws.com',
     'user':'postgres',
     'port':'5432',
-    'password':'admin123',
-    'database':'postgres'
+    'password':'v7A35IT6whvQVkMED5XM',
+    'database':'atmosphere'
 }
 
 data_configs_map = {'ENGINE': 'django.db.backends.postgresql',
